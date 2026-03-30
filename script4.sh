@@ -1,36 +1,18 @@
-
 #!/bin/bash
-
-# Script 3: Disk and Permission Auditor
-# Author: M. NEHITH
-# Course: Open Source Software
-
-DIRS=("/etc" "/var/log" "/home" "/usr/bin" "/tmp")
-
-echo "Directory Audit Report"
-echo "-------------------------------------"
-
-for DIR in "${DIRS[@]}"
-do
-    if [ -d "$DIR" ]; then
-
-        PERMS=$(ls -ld $DIR | awk '{print $1, $3, $4}')
-        SIZE=$(du -sh $DIR 2>/dev/null | cut -f1)
-
-        echo "$DIR => Permissions: $PERMS | Size: $SIZE"
-
-    else
-        echo "$DIR does not exist"
-    fi
-done
-
-echo ""
-echo "Checking Python installation location"
-
-PYTHON_PATH=$(which python3)
-
-if [ -f "$PYTHON_PATH" ]; then
-    ls -l $PYTHON_PATH
-else
-    echo "Python binary not found."
+# Script 4: Log File Analyzer
+# Usage: ./log_analyzer.sh /var/log/messages
+LOGFILE=$1
+KEYWORD=${2:-"error"} # Default keyword is 'error'
+COUNT=0
+if [ ! -f "$LOGFILE" ]; then
+echo "Error: File $LOGFILE not found."
+exit 1
 fi
+while IFS= read -r LINE; do
+if echo "$LINE" | grep -iq "$KEYWORD"; then
+COUNT=$((COUNT + 1))
+fi
+done < "$LOGFILE"
+echo "Keyword '$KEYWORD' found $COUNT times in $LOGFILE"
+# TODO: Add a do-while style retry if the file is empty,
+# and print the last 5 matching lines using tail + grep
