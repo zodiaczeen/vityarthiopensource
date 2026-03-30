@@ -1,51 +1,23 @@
 #!/bin/bash
 # Script 2: FOSS Package Inspector
-# Author: Sumit kumar (24BCE10537)
-# Software Choice: git
 
-# Setting the package as the Git
-PACKAGE="git"
+PACKAGE="python3" # e.g. httpd, mysql, vlc, firefox
 
-echo "--- Commencing Package Inspection for: $PACKAGE ---"
-
-# --- Package Installation Check ---
-# We use 'dpkg -l' instead of 'rpm' because Ubuntu is a Debian-based system
-if dpkg -l | grep -q "^ii  $PACKAGE "; then
-    echo "Status: $PACKAGE is successfully installed on this system."
-    echo "----------------------------------------------------"
-
-    # 'apt show' retrieves the package metadata
-    # We pipe (|) the output to 'grep -E' to filter only for Version and Homepage
-    # '2>/dev/null' hides any unnecessary error messages from the console
-    apt show $PACKAGE 2>/dev/null | grep -E 'Version|Homepage|Download-Size'
-
-    echo "----------------------------------------------------"
+# Check if package is installed
+# Changed rpm to dpkg -l because WSL uses Ubuntu, as allowed by your PDF
+if dpkg -l $PACKAGE &>/dev/null; then
+ echo "$PACKAGE is installed."
+ dpkg -s $PACKAGE | grep -E 'Version|License|Summary|Description'
 else
-    # This block executes if the package is not found in the dpkg database
-    echo "Status: $PACKAGE is NOT currently installed."
-    echo "Action: You can install it using 'sudo apt install $PACKAGE'"
+ echo "$PACKAGE is NOT installed."
 fi
 
-# --- TODO: Add a case statement that prints a one-line ---
-# --- TODO: Add your software and 3 others ---
-# Using a 'case' structure to provide context based on the software name
+# Add a case statement that prints a one-line
+# philosophy note about the package based on its name
 case $PACKAGE in
-    "httpd" | "apache2")
-        # Note for Apache Web Server
-        echo "Philosophy: Apache - The web server that built the open internet." ;;
-    "mysql" | "mysql-server")
-        # Note for MySQL Database
-        echo "Philosophy: MySQL - Open source at the heart of millions of apps." ;;
-    "git")
-        # Specific note for your chosen software: Git
-        echo "Philosophy: Git - The tool Linus built when proprietary failed him." ;;
-    "vlc")
-        # Note for VLC Media Player
-        echo "Philosophy: VLC - A student-led project that plays anything." ;;
-    "firefox")
-        # Note for Firefox Browser
-        echo "Philosophy: Firefox - A nonprofit fighting for an open web." ;;
-    *)
-        # Default case if the package doesn't match the list above
-        echo "Philosophy: This is a valuable component of the FOSS ecosystem." ;;
+ httpd) echo "Apache: the web server that built the open internet" ;;
+ mysql) echo "MySQL: open source at the heart of millions of apps" ;;
+ python3) echo "Python: The language that democratized AI" ;;
+ vlc) echo "VLC: Plays anything, built by students" ;;
+ firefox) echo "Firefox: A nonprofit fighting for an open web" ;;
 esac
