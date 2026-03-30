@@ -1,31 +1,40 @@
 #!/bin/bash
-
 # Script 1: System Identity Report
-# Author: M. NEHITH
+# Author: Sumit kumar (24BCE10537)
 # Course: Open Source Software
+# Software Choice: Git
 
-# Variables
-STUDENT_NAME="M. NEHITH"
-SOFTWARE_CHOICE="Python"
+# --- Variables ---
+# Specific details for audit
+STUDENT_NAME="Sumit kumar"
+SOFTWARE_CHOICE="Git"
 
-# System information
+# --- System info ---
+# Capturing real-time system data using command substitution
 KERNEL=$(uname -r)
 USER_NAME=$(whoami)
 UPTIME=$(uptime -p)
-DATE=$(date)
-DISTRO=$(lsb_release -d | cut -f2)
 
-# Output
-echo "======================================"
-echo " Open Source Audit - $STUDENT_NAME"
-echo "======================================"
+# --- Completed TODOS ---
+# 1. Distro Name: Using the lsb_release to specifically identify Ubuntu
+DISTRO=$(lsb_release -ds)
+# 2. Date: Formatted for readability
+CURRENT_DATE=$(date "+%Y-%m-%d %H:%M:%S")
 
-echo "Chosen Software : $SOFTWARE_CHOICE"
-echo "Kernel Version  : $KERNEL"
-echo "Current User    : $USER_NAME"
-echo "Linux Distro    : $DISTRO"
-echo "System Uptime   : $UPTIME"
-echo "Current Date    : $DATE"
-
-echo ""
-echo "Linux is distributed under the GNU General Public License (GPL).
+# --- Display ---
+# Formatting the output for the report screenshot
+echo "=========================================="
+echo "   Open Source Audit - $STUDENT_NAME      "
+echo "=========================================="
+echo "Chosen Software  : $SOFTWARE_CHOICE"
+echo "------------------------------------------"
+echo "Operating System : $DISTRO"
+echo "Kernel Version   : $KERNEL"
+echo "Current User     : $USER_NAME"
+echo "Home Directory   : $HOME"
+echo "System Uptime    : $UPTIME"
+echo "Current Date/Time: $CURRENT_DATE"
+echo "------------------------------------------"
+# 3. License Message: Added as per requirements
+echo "Note: This OS is covered by the GNU GPL License."
+echo "=========================================="
